@@ -36,36 +36,19 @@ router.get('/:id/edit', (req, res) => {
         .lean()
         .then(record => {
           catagories.forEach(category => {
-            if (String(category._id) === String(record.categoryId)) {
+            if (category.name === record.category) {
               category.preset = true
             } else {
               category.preset = false
             }
           })
-          record.date = moment(item.date).format('YYYY-MM-DD')
+          record.date = moment(record.date).format('YYYY-MM-DD')
           res.render('edit', { record, catagories })
         })
         .catch(error => console.log(error))
     })
     .catch(error => console.error(error))
 })
-
-router.get('/:id/edit', (req, res) => {
-  const userId = req.user._id
-  const _id = req.params.id
-  Record.findOne({ _id, userId })
-    .lean()
-    .then(record => {
-      Category.find()
-        .lean()
-        .then(categories => {
-          record.date = moment(record.date).format('YYYY-MM-DD')
-          res.render('edit', { record, categories })
-        })
-    })
-    .catch(error => console.error(error))
-})
-
 
 router.put('/:id', (req, res) => {
   const userId = req.user._id
