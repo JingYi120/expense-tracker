@@ -1,0 +1,38 @@
+<h1 class="mb-1 restaurant-show-title">請輸入你的支出</h1>
+<div class="container">
+  <form action="/records" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">名稱<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="name" name="name" required />
+    </div>
+    <div class="mb-3">
+      <label for="date" class="form-label">日期<span class="text-danger">*</span></label>
+      <input type="date" class="form-control" id="date" name="date"
+        required />
+    </div>
+    <div class="mb-3">
+      <label for="category" class="form-label">類別<span class="text-danger">*</span></label>
+      <select class="form-control" name="category" required>
+        <option value="" disabled selected>請選擇</option>
+        {{#each categories}}
+        <option value="{{ this.name }}" name="{{this.name}}">{{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="amount" class="form-label">金額<span class="text-danger">*</span></label>
+      <input type="number" class="form-control" id="amount" name="amount" required />
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">
+        新增紀錄
+      </button>
+      <a href="/">
+        <button type="button" class="btn btn-outline-secondary">
+          返回首頁
+        </button>
+      </a>
+      <button type="reset" class="btn btn-outline-danger">重新輸入</button>
+    </div>
+  </form>
+</div>

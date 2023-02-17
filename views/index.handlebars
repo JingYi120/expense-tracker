@@ -1,0 +1,39 @@
+<div class="container">
+  <form class="input-group" action="/search" method="get">
+    <label class="input-group-text" for="categoryId">選擇類別</label>
+    <select class="form-select" name="categoryId" id="categoryId" onchange="submit()">
+      <option value="">全部</option>
+      {{#each catagories}}
+      <option value="{{ this.name }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
+      {{/each}}
+    </select>
+  </form>
+
+  <div>
+    <h5>總金額</h5>
+    <h1>{{ totalAmount }}</h1>
+  </div>
+
+  <a href="/records/new" class="btn btn-primary mb-3">新增</a>
+
+  <div class="row">
+{{#each records}}
+    <li class="row">
+      <i class="{{this.icon}}"></i>
+      <div>
+        <h3 class="name">{{ this.name }}</h3>
+        <h6 class="date">{{ this.date }}</h6>
+      </div>
+      <h3>{{ this.amount }}</h3>
+      <div>
+        <a class="btn btn-success" href="./records/{{ this._id }}/edit">edit</a>
+        <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+          <button class="btn btn-danger" type="submit">delete</button>
+        </form>
+          
+      </div>
+    </li>
+{{/each}}
+  </div>
+
+</div>
