@@ -14,11 +14,11 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const userId = req.user._id
-  const { name, date, categoryId, amount } = req.body
+  const { name, date, category, amount } = req.body
   Record.create({
     name,
     date,
-    categoryId,
+    category,
     amount,
     userId
   })
