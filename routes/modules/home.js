@@ -6,32 +6,31 @@ const Record = require('../../models/record')
 
 router.get('/', (req, res) => {
   const userId = req.user._id
-  Category.find({ })
+
+  Category.find({})
     .lean()
-    .sort({ _id: 'asc' })
-    .then(categories =>{
+    .then(catagories => {
       Record.find({ userId })
-      .lean()
-      .sort({ date: 'desc' })
-      .then(records => {
-        const totalAmount = 0
-        records.forEach(record => {
-          totalAmount += record.amount
-          record.date = moment(record.date).format('YYYY/MM/DD')
-          categories.find(category => {
-            if (category.name === record.category) {
-              return record.icon = category.icon
-            }
+        .populate('categoryId')
+        .lean()
+        .sort({ date: 'desc' })
+        .then(records => {
+          let totalAmount = 0
+          records.forEach(record => {
+            totalAmount += record.amount
+            record.date = moment(record.date).format('YYYY-MM-DD')
           })
+
           return res.render('index', {
-            catagories,
             records,
-            totalAmount})
-            })
+            catagories,
+            totalAmount
           })
+        })
     })
     .catch(error => console.error(error))
 })
+
 
 router.get('/search', (req, res) => {
   const userId = req.user._id
@@ -71,4 +70,5 @@ router.get('/search', (req, res) => {
     })
     .catch(error => console.error(error))
 })
+
 module.exports = router

@@ -14,11 +14,11 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const userId = req.user._id
-  const { name, date, category, amount } = req.body
+  const { name, date, categoryId, amount } = req.body
   Record.create({
     name,
     date,
-    category,
+    categoryId,
     amount,
     userId
   })
@@ -29,6 +29,7 @@ router.post('/', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
+
   Category.find({})
     .lean()
     .then(catagories => {
@@ -36,7 +37,7 @@ router.get('/:id/edit', (req, res) => {
         .lean()
         .then(record => {
           catagories.forEach(category => {
-            if (category.name === record.category) {
+            if (String(category._id) === String(record.categoryId)) {
               category.preset = true
             } else {
               category.preset = false
@@ -47,27 +48,27 @@ router.get('/:id/edit', (req, res) => {
         })
         .catch(error => console.log(error))
     })
-    .catch(error => console.error(error))
 })
 
 router.put('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
-  const { name, category, date, amount } = req.body
+  const { name, categoryId, date, amount } = req.body
   return Record.findOne({ _id, userId })
     .then(record => {
       record.name = name
       record.date = date
-      record.category = category
+      record.categoryId = categoryId
       record.amount = amount
       return record.save()
     })
     .then(() => {
-      req.flash('success_msg', '修改成功')
-      res.redirect(`/records/${_id}/edit`)
+      res.redirect('/')
     })
     .catch(error => console.log(error))
 })
+
+
 
 router.delete('/:id', (req, res) => {
   const userId = req.user._id
