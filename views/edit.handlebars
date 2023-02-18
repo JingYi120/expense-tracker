@@ -10,11 +10,10 @@
       <input type="date" class="form-control" id="date" name="date" value="{{record.date}}" required />
     </div>
     <div class="mb-3">
-      <label for="category" class="form-label">類別<span class="text-danger">*</span></label>
-      <select class="form-control" name="category" required>
-        <option value="" disabled selected>請選擇</option>
+      <label for="categoryId" class="form-label">類別<span class="text-danger">*</span></label>
+      <select class="form-control" name="categoryId" required>
         {{#each catagories}}
-        <option value="{{ this.name }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
+        <option value="{{ this._id }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
         {{/each}}
       </select>
     </div>

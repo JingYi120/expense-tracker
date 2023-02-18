@@ -1,39 +1,48 @@
-<div class="container">
+<div class="container mt-4">
   <form class="input-group" action="/search" method="get">
     <label class="input-group-text" for="categoryId">選擇類別</label>
     <select class="form-select" name="categoryId" id="categoryId" onchange="submit()">
       <option value="">全部</option>
       {{#each catagories}}
-      <option value="{{ this.name }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
+      <option value="{{ this._id }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
       {{/each}}
     </select>
   </form>
 
+
   <div>
-    <h5>總金額</h5>
-    <h1>{{ totalAmount }}</h1>
+    <h4 class="mt-4">總金額</h5>
+    <h1 class="ms-4">{{ totalAmount }}</h1>
   </div>
 
   <a href="/records/new" class="btn btn-primary mb-3">新增</a>
 
-  <div class="row">
+  <ul class="list-group">
 {{#each records}}
-    <li class="row">
-      <i class="{{this.icon}}"></i>
-      <div>
-        <h3 class="name">{{ this.name }}</h3>
-        <h6 class="date">{{ this.date }}</h6>
-      </div>
-      <h3>{{ this.amount }}</h3>
-      <div>
-        <a class="btn btn-success" href="./records/{{ this._id }}/edit">edit</a>
-        <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-          <button class="btn btn-danger" type="submit">delete</button>
-        </form>
-          
-      </div>
-    </li>
+      <li class="list-group-item ">
+        <div class="row align-items-center">
+          <div class="col d-flex align-items-center">
+            <div class="col">
+              <i class="{{this.categoryId.icon}} fa-3x " style="color: #666666"></i>
+            </div>
+            
+            <div class="col-9">
+              <h4 >
+                {{ this.name }}
+              </h4>
+              <p >{{this.date}}</p>
+            </div>
+            
+            <p class="col-1 text-end me-2 mb-0 p-0 fs-4">{{this.amount}}</p>
+          </div>
+          <div class="col-auto">
+            <a class="btn btn-success" href="./records/{{ this._id }}/edit">edit</a>
+            <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+              <button class="btn btn-danger" type="submit">delete</button>
+            </form>
+          </div>
+        </div>
+      </li>
 {{/each}}
-  </div>
-
+  </ul>
 </div>

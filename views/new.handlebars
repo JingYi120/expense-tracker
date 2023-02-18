@@ -11,14 +11,15 @@
         required />
     </div>
     <div class="mb-3">
-      <label for="category" class="form-label">類別<span class="text-danger">*</span></label>
-      <select class="form-control" name="category" required>
+      <label for="categoryId" class="form-label">類別<span class="text-danger">*</span></label>
+      <select class="form-control" name="categoryId" required>
         <option value="" disabled selected>請選擇</option>
-        {{#each categories}}
-        <option value="{{ this.name }}" name="{{this.name}}">{{this.name}}</option>
+        {{#each catagories}}
+        <option value="{{ this._id }}" {{#if this.preset}}selected="selected" {{/if}}>{{ this.name }}</option>
         {{/each}}
       </select>
     </div>
+    
     <div class="mb-3">
       <label for="amount" class="form-label">金額<span class="text-danger">*</span></label>
       <input type="number" class="form-control" id="amount" name="amount" required />
