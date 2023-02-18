@@ -1,6 +1,9 @@
+const bcrypt = require('bcryptjs')
 const db = require('../../config/mongoose')
 const Record = require('../record')
-const recordS = require('./record.json')
+const Category = require('../category')
+const records = require('./record.json')
+const User = require('../user')
 
 const SEED_USER = {
   name: 'root',
@@ -18,13 +21,19 @@ db.once('open', () => {
       password: hash
     }))
     .then(user => {
-      const userId = user._id
-      return Promise.all(Array.from(
-        { length: recordS.length },
-        (_, i) => Record.create(records, { userId }) 
-      ))
-
-
+      return Promise.all(Array.from(records, seedRecord => {
+        return Category.findOne({ name: seedRecord.category })
+          .lean()
+          .then(category => {
+            return Record.create({
+              name: seedRecord.name,
+              date: seedRecord.date,
+              amount: seedRecord.amount,
+              userId: user._id,
+              categoryId: category._id
+            })
+          })
+      }))
     })
     .then(() => {
       console.log('done.')
